@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Spring</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="http://localhost:35729/livereload.js"></script>
+</head>
+<body>
+    <h1>Hello Spring ${name}</h1>
+    <p value="${name}"></p>
+
+    <p>This is hello from template</p>
+    <p>Hy</p>
+    <input type="button" id="button" value="Click me" onclick="myfunction()">
+    <p id="count">0</p>
+    <script>
+        var count = 0;
+        var dis = document.getElementById("count")
+        function myfunction(){
+            count = count + 1;
+            console.log(count)
+            dis.innerText = count;
+        } 
+
+        function submitForm(event){
+            event.preventDefault();
+
+            let id = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            
+            let formData =  new FormData();
+            formData.append("id", id);
+            formData.append("name", name);
+            
+            fetch("http://localhost:8080/add", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+            })
+            .catch(error => {
+                alert("Error: ", error);
+            })
+        }
+        
+    </script>
+    <form onsubmit="submitForm(event)">
+        <label for="id">User ID</label>
+        <input type="number" id="id" name="id" required><br>
+        <input type="text" id="name" name="name" required>
+        <button type="submit"> Submit</button> 
+    </form>
+</body>
+</html>
