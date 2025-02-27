@@ -12,6 +12,9 @@
     <p value="${name}"></p>
 
     <p>This is hello from template</p>
+    <ul>
+        <li th:each="name : ${names}" th:text="${name}"></li>
+    </ul>
     <p>Hy</p>
     <input type="button" id="button" value="Click me" onclick="myfunction()">
     <p id="count">0</p>

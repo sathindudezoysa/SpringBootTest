@@ -1,5 +1,7 @@
 package com.example.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.daos.DemoDao;
+import com.example.daos.dto.Profile;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,8 +36,20 @@ public class DemoController {
     // }
     @GetMapping("/home")
     public String home(ModelMap modelMap) {
-        modelMap.addAttribute("name", demoDao.getFirstName());
+        modelMap.addAttribute("names", demoDao.getFirstName());
         return "home";
+    }
+
+    @GetMapping("/api")
+    @ResponseBody
+    public List<String> getnames() {
+        return demoDao.getFirstName();
+    }
+
+    @GetMapping("/api2")
+    @ResponseBody
+    public List<Profile> namProfiles() {
+        return demoDao.getNames();
     }
 
     @GetMapping("/")
