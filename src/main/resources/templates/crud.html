@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD</title>
+</head>
+<body>
+
+<script>
+  function deleteItem(id){
+    let formData = new FormData();
+    formData.append("id", id);
+
+    fetch("/delete", {
+        method: "POST",
+        body: formData
+    }).then(response => response.text())
+        .then(date =>{
+            alert(date);
+            window.location.reload();
+        })
+  }
+  function updateItem(id){
+    window.location.assign('/update?id='+id)
+  }
+</script>
+
+<p>Insert new Item <a href="/new"> click</a></p>
+
+
+<table border="true">
+  <th>id</th>
+  <th>name</th>
+  <th>delete</th>
+  <tr th:each="item: ${items}" >
+    <td th:text="${item.id}"></td>
+    <td th:text="${item.name}"></td>
+    <td>
+        <button  th:onclick="'deleteItem('+ ${item.id} + ')'"> delete</button>
+        <button th:onclick="'updateItem('+ ${item.id} + ')'"> update</button></td>
+  </tr>
+</table>
+
+</body>
+</html>

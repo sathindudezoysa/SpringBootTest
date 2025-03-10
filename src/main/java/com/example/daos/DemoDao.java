@@ -32,6 +32,7 @@ public class DemoDao {
         return names;
     }
 
+
     public List<Profile> getNames() {
         String q = "SELECT id, name FROM test";
         /**
@@ -48,6 +49,18 @@ public class DemoDao {
         });
     }
 
+    public Profile getSearchItem(int id){
+        String q = "SELECT id, name FROM test WHERE id = :id";
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        List<Profile> list =  jdbcTemplate.query(q, params, (rs, rownum) ->(
+            new Profile(rs.getInt("id"), rs.getString("name"))
+         ));
+        return list.get(0);
+    }
+
     public int insertUser(int id, String name) {
         String q = "INSERT INTO test(id, name) VALUES (:id, :name)";
 
@@ -58,5 +71,25 @@ public class DemoDao {
         return jdbcTemplate.update(q, params);
 
     }
+
+    public int updateUser(int id, String name){
+        String q = "UPDATE test SET name = :name WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        params.addValue("name", name);
+
+        return jdbcTemplate.update(q, params);
+    }
+
+    public int deleteUser(int id){
+        String q = "DELETE FROM test WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+
+        return jdbcTemplate.update(q, params);
+    }
+
+
+
 
 }
